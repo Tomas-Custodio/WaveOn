@@ -6,6 +6,7 @@ use App\Http\Controllers\LofyController;
 
 
 Route::get('/',[LofyController::class,'all_categories'])->name('categories.index');
+Route::get('/contact',[LofyController::class,'contact'])->name('contact');
 
 
 Route::prefix('lofies')->name('lofy.')->group(function(){

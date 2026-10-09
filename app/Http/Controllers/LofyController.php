@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class LofyController extends Controller {
     protected LofyService $lofy;
+
+
+    public function contact(){
+
+        return view('Public.Contact.contact');
+        
+    }
     public function __construct()
     {
         $this->lofy = new LofyService();

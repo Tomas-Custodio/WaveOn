@@ -59,7 +59,7 @@ class LofyService {
 
         public function all_categories () {
 
-            $response = Http::get( $this->site . '/music/categories/all', ['limit'=>12]);
+            $response = Http::get( $this->site . '/music/categories/all', []);
 
             if ( $response->successful() ){
 

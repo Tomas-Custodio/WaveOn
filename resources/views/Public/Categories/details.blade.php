@@ -1,9 +1,9 @@
-```blade
 @extends('Layouts.public')
 
 @section('content')
 
     {{-- DETALHES DA CATEGORIA --}}
+
     <section class="max-w-6xl mx-auto p-6">
 
         <article class="bg-slate-900 text-white rounded-xl shadow-lg overflow-hidden">
@@ -66,36 +66,63 @@
 
                 {{-- Voltar às categorias --}}
                 
-                <div class="mt-8">
-                    <a
-                        href="{{ route('categories.index') }}"
-                        class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-3 rounded-lg transition"
-                    >
-                        <span>&larr;</span>
-                        Voltar às categorias
-                    </a>
-                </div>
+                <
+        {{-- Botão fixo para voltar às categorias --}}
 
-            </div>
-        </article>
-    </section>
+        <a
+            href="{{ route('categories.index') }}"
+            title="Voltar às categorias"
+            aria-label="Voltar às categorias"
+            class="fixed right-0 top-1/2 -translate-y-1/2 z-50
+                flex items-center justify-center
+                bg-green-500 hover:bg-green-600
+                text-white p-4 rounded-l-xl shadow-lg
+                transition-all duration-300 hover:pr-6">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-6 h-6">
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 19.5 8.25 12l7.5-7.5"/>
+
+            </svg>
+        
+            </a>
+
+        </div>
+
+    </article>
+
+</section>
 
 
     {{-- MÚSICAS DA CATEGORIA --}}
+
     <section class="max-w-6xl mx-auto px-6 pb-12">
 
-        {{-- Título sempre à esquerda --}}
-        <header class="mb-8 text-left">
-            <h2 class="text-2xl md:text-3xl font-bold text-slate-800">
-                Músicas desta categoria
-            </h2>
+            {{-- Título sempre à esquerda --}}
 
-            <p class="text-slate-500 mt-2">
-                Explora as músicas e ouve as tuas favoritas.
-            </p>
-        </header>
+            <header class="mb-8 text-left">
+
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">
+                    Músicas desta categoria
+                </h2>
+
+                <p class="text-slate-500 mt-2">
+                    Explora as músicas e ouve as tuas favoritas.
+                </p>
+            </header>
 
         {{-- Cards centrados dentro do container --}}
+
+        {{-- CONTAINER DAS MÚSICAS --}}
+
         <div class="w-full flex flex-col items-center gap-4">
 
             @forelse ($category_tracks ?? [] as $track)
@@ -114,14 +141,16 @@
                         $mp3 = $track['files']['mp3'] ?? null;
                     @endphp
 
+                    {{-- CARD DA MÚSICA --}}
                     <article
-                        class="w-full max-w-4xl min-w-0 bg-green-500 border border-green-600 rounded-xl p-4 md:p-5 shadow-sm"
+                        class="w-full min-w-0 bg-green-500 border border-green-600 rounded-xl p-4 md:p-5 shadow-sm"
                     >
 
                         <div class="flex flex-col md:flex-row md:items-center gap-4 w-full min-w-0">
 
-                            {{-- Informações da música --}}
+                            {{-- INFORMAÇÕES --}}
                             <div class="w-full md:flex-1 md:min-w-0">
+
                                 <h3 class="text-lg font-bold text-white truncate">
                                     {{ $track['title'] ?? 'Sem título' }}
                                 </h3>
@@ -133,9 +162,10 @@
                                 <p class="text-xs text-green-100 mt-1 truncate">
                                     {{ $track['record_label'] ?? 'Editora não disponível' }}
                                 </p>
+
                             </div>
 
-                            {{-- Player --}}
+                            {{-- PLAYER DE ÁUDIO --}}
                             @if ($mp3)
 
                                 <div class="player flex items-center gap-3 w-full md:w-80 lg:w-96 md:shrink-0 min-w-0">
@@ -148,9 +178,10 @@
                                         ▶
                                     </button>
 
+                                    {{-- WAVEFORM --}}
                                     <div
                                         class="wave flex items-center gap-px h-12 flex-1 min-w-0 overflow-hidden cursor-pointer"
-                                        aria-label="Progresso da música"
+                                        title="Clica para avançar na música"
                                     >
                                         @for ($i = 0; $i < count($wave); $i += $step)
                                             <span
@@ -160,6 +191,7 @@
                                         @endfor
                                     </div>
 
+                                    {{-- TEMPO --}}
                                     <span class="time text-xs w-12 text-right shrink-0 tabular-nums text-white">
                                         {{ gmdate('i:s', (int) ($track['duration'] ?? 0)) }}
                                     </span>
@@ -170,12 +202,13 @@
 
                             @endif
 
-                            {{-- Detalhes --}}
+                            {{-- BOTÃO DE DETALHES --}}
                             <a
                                 href="{{ route('lofy.tracks.details', $track['id']) }}"
                                 aria-label="Ver detalhes de {{ $track['title'] ?? 'música' }}"
                                 class="flex items-center justify-center gap-2 shrink-0 bg-white hover:bg-green-100 text-green-700 p-3 rounded-lg transition"
                             >
+
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -199,6 +232,7 @@
                                 <span class="md:hidden">
                                     Detalhes
                                 </span>
+
                             </a>
 
                         </div>
@@ -208,7 +242,7 @@
 
             @empty
 
-                <div class="w-full max-w-4xl bg-white border border-slate-200 rounded-xl p-10 text-center">
+                <div class="w-full bg-white border border-slate-200 rounded-xl p-10 text-center">
                     <h3 class="text-lg font-semibold text-slate-700">
                         Nenhuma música encontrada
                     </h3>
@@ -221,6 +255,7 @@
             @endforelse
 
         </div>
+        
     </section>
 
 
@@ -306,4 +341,4 @@
     </script>
 
 @endsection
-```
+
