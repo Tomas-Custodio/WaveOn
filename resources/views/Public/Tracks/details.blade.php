@@ -7,6 +7,7 @@
         <div class="max-w-5xl mx-auto">
 
             {{-- Voltar --}}
+            
             <a href="{{ url()->previous() }}"
                class="inline-flex items-center gap-2 text-slate-600 hover:text-green-600 transition mb-6">
 

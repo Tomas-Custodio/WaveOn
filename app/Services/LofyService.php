@@ -57,7 +57,7 @@ class LofyService {
 
         }
 
-        public function get_categories () {
+        public function all_categories () {
 
             $response = Http::get( $this->site . '/music/categories/all', ['limit'=>12]);
 
@@ -176,6 +176,22 @@ class LofyService {
 
                 return [];
             }
+        }
+
+        public function category_tracks(string $category_id){
+
+            $response = Http::get($this->site ."/music/categories/{$category_id}/tracks",['limit'=>12]);
+
+           if( $response->successful() ) { 
+
+                return $response['data'];
+           } 
+
+            else{
+
+                return [];
+            }
+
         }
 
 }

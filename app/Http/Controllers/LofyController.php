@@ -40,9 +40,9 @@ class LofyController extends Controller {
         
     }
 
-    public function categories() {
+    public function all_categories() {
 
-        $categories = $this->lofy->get_categories();
+        $categories = $this->lofy->all_categories();
         return view('Public.Categories.index', compact('categories'));
     }
 
@@ -59,13 +59,23 @@ class LofyController extends Controller {
 
     }
 
+    /* public function category_tracks(string $category_id){
+
+        $tracks_found = $this->lofy->category_details($category_id);
+        return view('Public.Categories.tracks',compact('tracks_found'));
+
+    } */
+
     public function category_details(string $category_id){
 
        $category_found = $this->lofy->category_details($category_id);
+       $category_tracks = $this->lofy->category_tracks($category_id);
+
+       
 
        #dd($category_found);
 
-        return view('Public.Categories.details', compact('category_found'));
+        return view('Public.Categories.details', compact('category_found','category_tracks'));
 
     }
 

@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LofyController;
 
+
+Route::get('/',[LofyController::class,'all_categories'])->name('categories.index');
+
+
 Route::prefix('lofies')->name('lofy.')->group(function(){
 
         Route::prefix('tracks')->name('tracks.')->group(function(){
 
-            Route::get('/index',[LofyController::class,'all_tracks'])->name('index');
+            Route::get('/',[LofyController::class,'all_tracks'])->name('index');
 
             Route::get('/news',[LofyController::class,'recents_tracks'])->name('recents');
             Route::get('/olds',[LofyController::class,'old_tracks'])->name('olds');
@@ -19,7 +23,7 @@ Route::prefix('lofies')->name('lofy.')->group(function(){
 
         Route::prefix('categories')->name('categories.')->group(function(){
 
-            Route::get('/index',[LofyController::class,'categories'])->name('index');
+            Route::get('/',[LofyController::class,'categories'])->name('index');
 
             Route::get('/recents', [LofyController::class, 'recent_categories'])->name('recents');
             Route::get('/olds', [LofyController::class, 'old_categories'])->name('olds');
@@ -28,7 +32,7 @@ Route::prefix('lofies')->name('lofy.')->group(function(){
 
         Route::prefix('artists')->name('artists.')->group(function(){
 
-            Route::get('/index',[LofyController::class,'all_artists'])->name('index');
+            Route::get('/',[LofyController::class,'all_artists'])->name('index');
             Route::get('/artists/{artist_id}', [LofyController::class, 'artist_details'])->name('details');
 
         });
@@ -38,6 +42,4 @@ Route::prefix('lofies')->name('lofy.')->group(function(){
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
