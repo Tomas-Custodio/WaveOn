@@ -67,7 +67,7 @@
                 {{-- Voltar às categorias --}}
                 
                 <
-        {{-- Botão fixo para voltar às categorias --}}
+{{-- Botão fixo para voltar às categorias --}}
 
         <a
             href="{{ route('categories.index') }}"
@@ -96,9 +96,8 @@
             </a>
 
         </div>
-
+        
     </article>
-
 </section>
 
 
@@ -202,40 +201,82 @@
 
                             @endif
 
-                            {{-- BOTÃO DE DETALHES --}}
-                            <a
-                                href="{{ route('lofy.tracks.details', $track['id']) }}"
-                                aria-label="Ver detalhes de {{ $track['title'] ?? 'música' }}"
-                                class="flex items-center justify-center gap-2 shrink-0 bg-white hover:bg-green-100 text-green-700 p-3 rounded-lg transition"
+                           {{-- Botões: detalhes e download --}}
+                <div class="flex items-center gap-2 shrink-0">
+
+                    {{-- Ver detalhes --}}
+                    <a
+                        href="{{ route('lofy.tracks.details', $track['id']) }}"
+                        aria-label="Ver detalhes de {{ $track['title'] ?? 'música' }}"
+                        title="Ver detalhes"
+                        class="flex items-center justify-center gap-2 bg-white hover:bg-green-100 text-green-700 p-3 rounded-lg transition"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z"
+                            />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                            />
+                        </svg>
+
+                        <span class="md:hidden">
+                            Detalhes
+                        </span>
+                    </a>
+
+                    {{-- Download MP3 --}}
+                    @if (!empty($track['files']['mp3']))
+                        <a
+                            href="{{ $track['files']['mp3'] }}"
+                            download
+                            aria-label="Descarregar {{ $track['title'] ?? 'música' }}"
+                            title="Descarregar música"
+                            class="flex items-center justify-center gap-2 bg-white hover:bg-green-100 text-green-700 p-3 rounded-lg transition"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="size-6"
                             >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M7.5 12 12 16.5 16.5 12"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 16.5v-13"
+                                />
+                            </svg>
 
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="size-6"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z"
-                                    />
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                    />
-                                </svg>
+                            <span class="md:hidden">
+                                Download
+                            </span>
+                        </a>
+                    @endif
 
-                                <span class="md:hidden">
-                                    Detalhes
-                                </span>
-
-                            </a>
-
-                        </div>
+                </div>
                     </article>
 
                 @endif

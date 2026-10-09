@@ -3,7 +3,6 @@
 @section('content')
 
     <section class="p-5 bg-slate-200 flex items-center justify-between">
-
         <h1 class="text-xl md:text-3xl font-bold">
             Track list
         </h1>
@@ -25,9 +24,7 @@
             >
                 Olds
             </option>
-
         </select>
-
     </section>
 
     <section class="flex flex-col items-center p-9 gap-3 bg-slate-50">
@@ -36,8 +33,11 @@
 
             @php
                 $wave = $track['waveform'] ?? [];
-                $max  = count($wave) ? max($wave) : 1;
-                $max  = $max ?: 1;
+                $wave = is_array($wave) ? $wave : [];
+
+                $max = count($wave) ? max($wave) : 1;
+                $max = $max ?: 1;
+
                 $step = max(1, intdiv(count($wave), 60));
             @endphp
 
@@ -46,9 +46,7 @@
             >
 
                 {{-- Informações da música --}}
-
                 <div class="flex-1 min-w-0">
-
                     <h3 class="text-lg font-bold text-slate-800 truncate">
                         {{ $track['title'] ?? 'Sem título' }}
                     </h3>
@@ -60,11 +58,9 @@
                     <p class="text-xs text-slate-200 mt-1">
                         {{ $track['record_label'] ?? 'Editora não disponível' }}
                     </p>
-
                 </div>
 
                 {{-- Reprodução --}}
-
                 @if (!empty($track['files']['mp3']))
 
                     <div class="player flex items-center gap-4 w-full md:w-96 md:shrink-0">
@@ -77,14 +73,12 @@
                         </button>
 
                         <div class="wave flex items-center gap-px h-12 flex-1 min-w-0 overflow-hidden cursor-pointer">
-
                             @for ($i = 0; $i < count($wave); $i += $step)
                                 <span
                                     class="bar bg-white flex-1 min-w-0 rounded-full opacity-40"
                                     style="height: {{ max(10, ($wave[$i] / $max) * 100) }}%"
                                 ></span>
                             @endfor
-
                         </div>
 
                         <span class="time text-xs w-12 text-right shrink-0 tabular-nums">
@@ -95,45 +89,86 @@
                             src="{{ $track['files']['mp3'] }}"
                             preload="metadata"
                         ></audio>
-
                     </div>
 
                 @endif
 
-                {{-- Detalhes --}}
+                {{-- Botões: detalhes e download --}}
+                <div class="flex items-center gap-2 shrink-0">
 
-                <a
-                    href="{{ route('lofy.tracks.details', $track['id']) }}"
-                    aria-label="Ver detalhes de {{ $track['title'] ?? 'música' }}"
-                    class="flex items-center justify-center gap-2 shrink-0 bg-slate-100 hover:bg-green-100 text-slate-700 hover:text-green-700 p-3 rounded-lg transition"
-                >
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-6"
+                    {{-- Ver detalhes --}}
+                    <a
+                        href="{{ route('lofy.tracks.details', $track['id']) }}"
+                        aria-label="Ver detalhes de {{ $track['title'] ?? 'música' }}"
+                        title="Ver detalhes"
+                        class="flex items-center justify-center gap-2 bg-white hover:bg-green-100 text-green-700 p-3 rounded-lg transition"
                     >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z"
-                        />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z"
+                            />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                            />
+                        </svg>
 
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                    </svg>
+                        <span class="md:hidden">
+                            Detalhes
+                        </span>
+                    </a>
 
-                    <span class="md:hidden">
-                        Detalhes
-                    </span>
+                    {{-- Download MP3 --}}
+                    @if (!empty($track['files']['mp3']))
+                        <a
+                            href="{{ $track['files']['mp3'] }}"
+                            download
+                            aria-label="Descarregar {{ $track['title'] ?? 'música' }}"
+                            title="Descarregar música"
+                            class="flex items-center justify-center gap-2 bg-white hover:bg-green-100 text-green-700 p-3 rounded-lg transition"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="size-6"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M7.5 12 12 16.5 16.5 12"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 16.5v-13"
+                                />
+                            </svg>
 
-                </a>
+                            <span class="md:hidden">
+                                Download
+                            </span>
+                        </a>
+                    @endif
+
+                </div>
 
             </article>
 
@@ -145,28 +180,35 @@
         const formatTime = (s) => {
             const m = Math.floor(s / 60);
             const sec = Math.floor(s % 60);
-            return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+
+            return String(m).padStart(2, '0') + ':' +
+                   String(sec).padStart(2, '0');
         };
 
         document.querySelectorAll('.player').forEach(player => {
-
             const audio = player.querySelector('audio');
-            const btn   = player.querySelector('.play-btn');
-            const wave  = player.querySelector('.wave');
-            const bars  = player.querySelectorAll('.bar');
-            const time  = player.querySelector('.time');
+            const btn = player.querySelector('.play-btn');
+            const wave = player.querySelector('.wave');
+            const bars = player.querySelectorAll('.bar');
+            const time = player.querySelector('.time');
             const total = time.textContent;
 
             btn.addEventListener('click', () => {
-                audio.paused ? audio.play() : audio.pause();
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
             });
 
             audio.addEventListener('play', () => {
                 btn.textContent = '⏸';
 
-                // pausa as outras músicas
+                // Pausar as outras músicas
                 document.querySelectorAll('audio').forEach(other => {
-                    if (other !== audio) other.pause();
+                    if (other !== audio) {
+                        other.pause();
+                    }
                 });
             });
 
@@ -180,7 +222,13 @@
             });
 
             audio.addEventListener('timeupdate', () => {
-                const done = Math.floor((audio.currentTime / audio.duration) * bars.length);
+                if (!audio.duration || !bars.length) {
+                    return;
+                }
+
+                const done = Math.floor(
+                    (audio.currentTime / audio.duration) * bars.length
+                );
 
                 bars.forEach((bar, i) => {
                     bar.style.opacity = i < done ? 1 : 0.4;
@@ -190,11 +238,17 @@
             });
 
             wave.addEventListener('click', (e) => {
-                const box = wave.getBoundingClientRect();
-                audio.currentTime = ((e.clientX - box.left) / box.width) * audio.duration;
-            });
+                if (!audio.duration) {
+                    return;
+                }
 
+                const box = wave.getBoundingClientRect();
+
+                audio.currentTime =
+                    ((e.clientX - box.left) / box.width) * audio.duration;
+            });
         });
     </script>
 
 @endsection
+
