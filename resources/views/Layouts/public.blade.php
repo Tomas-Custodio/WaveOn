@@ -21,7 +21,7 @@
         <div class="max-w-7xl mx-auto px-5 py-4 flex flex-wrap items-center justify-between gap-4">
 
             {{-- LOGÓTIPO --}}
-            <a href="{{ route('lofy.tracks.index') }}"
+            <a href="{{ route('categories.index') }}"
                class="text-2xl font-extrabold tracking-tight text-slate-900 shrink-0">
                 Wave<span class="text-green-500">On</span>
             </a>
